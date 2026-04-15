@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>亲情闹钟 - 隐私政策</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; font-size: 15px; line-height: 1.8; color: #333; background: #fff; }
+    .container { max-width: 860px; margin: 0 auto; padding: 40px 20px; }
+    h1 { font-size: 24px; font-weight: bold; text-align: center; margin-bottom: 10px; }
+    .meta { text-align: center; color: #888; font-size: 13px; margin-bottom: 40px; }
+    h2 { font-size: 17px; font-weight: bold; margin: 32px 0 12px; border-left: 4px solid #007AFF; padding-left: 10px; }
+    h3 { font-size: 15px; font-weight: bold; margin: 20px 0 8px; }
+    p { margin-bottom: 10px; }
+    ul, ol { margin: 8px 0 10px 20px; }
+    li { margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+    th { background: #f5f5f5; font-weight: bold; text-align: left; padding: 10px 12px; border: 1px solid #e0e0e0; }
+    td { padding: 10px 12px; border: 1px solid #e0e0e0; vertical-align: top; }
+    tr:nth-child(even) td { background: #fafafa; }
+    a { color: #007AFF; text-decoration: none; word-break: break-all; }
+    a:hover { text-decoration: underline; }
+    .highlight { background: #fff8e1; border-left: 4px solid #FFC107; padding: 12px 16px; margin: 16px 0; border-radius: 2px; }
+    .footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid #eee; color: #888; font-size: 13px; text-align: center; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <h1>亲情闹钟 隐私政策</h1>
+  <p class="meta">版本：1.0 &nbsp;|&nbsp; 发布日期：2026年04月15日 &nbsp;|&nbsp; 生效日期：2026年04月15日</p>
+
+  <div class="highlight">
+    <strong>重要提示：</strong>请在使用"亲情闹钟"（以下简称"本应用"）前，仔细阅读本隐私政策。使用本应用即表示您同意本政策的全部内容。
+  </div>
+
+  <h2>一、我们是谁</h2>
+  <p>本应用由<strong>北京亦辰创联科技有限公司</strong>（以下简称"我们"）开发和运营。</p>
+  <p>联系邮箱：<a href="mailto:helpme2026@163.com">helpme2026@163.com</a></p>
+
+  <h2>二、我们收集的信息</h2>
+
+  <h3>2.1 您主动提供的信息</h3>
+  <ul>
+    <li>手机号码：用于注册账号及身份验证</li>
+    <li>姓名：用于行程报备和通知联系人时展示</li>
+    <li>紧急联系人信息（姓名、手机号）：用于在行程超时时发送通知</li>
+  </ul>
+
+  <h3>2.2 我们自动收集的信息</h3>
+  <ul>
+    <li>位置信息：用于创建行程报备时记录出发地及途经位置</li>
+    <li>设备信息：设备型号、操作系统版本、推送Token，用于发送通知</li>
+    <li>行程数据：行程出发时间、预计到达时间、签到状态</li>
+  </ul>
+
+  <h3>2.3 从第三方获取的信息</h3>
+  <p>我们可能通过第三方推送SDK获取推送Token，用于向您发送行程提醒和通知。</p>
+
+  <h2>三、我们如何使用信息</h2>
+  <ul>
+    <li>提供行程报备核心功能，包括创建、监控、签到</li>
+    <li>在行程超时未签到时，向紧急联系人发送短信/推送通知</li>
+    <li>向您发送行程提醒、签到倒计时等推送通知</li>
+    <li>保障账号安全，进行身份验证</li>
+    <li>改善产品体验及排查技术问题</li>
+  </ul>
+
+  <h2>四、权限说明</h2>
+  <table>
+    <tr>
+      <th>权限</th>
+      <th>用途</th>
+      <th>是否必须</th>
+    </tr>
+    <tr>
+      <td>精确位置（ACCESS_FINE_LOCATION）</td>
+      <td>创建行程报备时获取精准出发位置</td>
+      <td>必须</td>
+    </tr>
+    <tr>
+      <td>大致位置（ACCESS_COARSE_LOCATION）</td>
+      <td>GPS不可用时使用网络定位获取大致位置</td>
+      <td>必须</td>
+    </tr>
+    <tr>
+      <td>后台位置（ACCESS_BACKGROUND_LOCATION）</td>
+      <td>行程进行中持续更新位置信息</td>
+      <td>必须</td>
+    </tr>
+    <tr>
+      <td>读取联系人（READ_CONTACTS）</td>
+      <td>添加紧急联系人时从通讯录中选择</td>
+      <td>必须</td>
+    </tr>
+    <tr>
+      <td>发送通知（POST_NOTIFICATIONS）</td>
+      <td>发送行程提醒、签到倒计时推送通知</td>
+      <td>必须</td>
+    </tr>
+    <tr>
+      <td>前台服务（FOREGROUND_SERVICE）</td>
+      <td>行程进行中保持位置监控服务运行</td>
+      <td>必须</td>
+    </tr>
+    <tr>
+      <td>开机自启（RECEIVE_BOOT_COMPLETED）</td>
+      <td>设备重启后恢复进行中的行程监控</td>
+      <td>必须</td>
+    </tr>
+    <tr>
+      <td>唤醒锁（WAKE_LOCK）</td>
+      <td>确保行程倒计时在息屏时正常运行</td>
+      <td>必须</td>
+    </tr>
+  </table>
+
+  <h2>五、第三方SDK信息</h2>
+  <p>本应用集成了以下第三方SDK，用于实现消息推送功能：</p>
+
+  <table>
+    <tr>
+      <th>SDK名称</th>
+      <th>开发者</th>
+      <th>包名</th>
+      <th>收集信息</th>
+      <th>使用目的</th>
+      <th>隐私政策</th>
+    </tr>
+    <tr>
+      <td>OPPO PUSH 客户端SDK</td>
+      <td>广东欢太科技有限公司</td>
+      <td>com.heytap.msp</td>
+      <td>设备标识符、推送Token、网络状态</td>
+      <td>在OPPO/一加设备上发送推送通知</td>
+      <td><a href="https://open.oppomobile.com/new/developmentDoc/info?id=11228" target="_blank">查看</a></td>
+    </tr>
+    <tr>
+      <td>vivo推送SDK</td>
+      <td>维沃移动通信有限公司</td>
+      <td>com.vivo.push</td>
+      <td>设备标识符、推送Token、网络状态</td>
+      <td>在vivo设备上发送推送通知</td>
+      <td><a href="https://dev.vivo.com.cn/documentCenter/doc/878" target="_blank">查看</a></td>
+    </tr>
+    <tr>
+      <td>小米推送</td>
+      <td>北京小米移动软件有限公司</td>
+      <td>com.xiaomi.push</td>
+      <td>设备标识符、推送Token、网络状态</td>
+      <td>在小米/Redmi设备上发送推送通知</td>
+      <td><a href="https://dev.mi.com/console/doc/detail?pId=1822" target="_blank">查看</a></td>
+    </tr>
+    <tr>
+      <td>华为推送SDK</td>
+      <td>华为软件技术有限公司</td>
+      <td>com.huawei.hms</td>
+      <td>设备标识符、推送Token、网络状态</td>
+      <td>在华为设备上发送推送通知</td>
+      <td><a href="https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/sdk-data-security-0000001050042177" target="_blank">查看</a></td>
+    </tr>
+    <tr>
+      <td>性能加速库</td>
+      <td>华为软件技术有限公司</td>
+      <td>com.huawei.hms.stats</td>
+      <td>设备信息、应用性能数据</td>
+      <td>提升华为HMS服务运行性能</td>
+      <td><a href="https://developer.huawei.com/consumer/cn/doc/development/graphics-Guides/sdk-data-security-0000001050700772" target="_blank">查看</a></td>
+    </tr>
+    <tr>
+      <td>荣耀推送SDK</td>
+      <td>荣耀终端有限公司</td>
+      <td>com.hihonor.push</td>
+      <td>设备标识符、推送Token、网络状态</td>
+      <td>在荣耀设备上发送推送通知</td>
+      <td><a href="https://developer.honor.com/cn/docs/privacy" target="_blank">查看</a></td>
+    </tr>
+  </table>
+
+  <h2>六、信息的存储与保护</h2>
+  <ul>
+    <li>您的数据存储在中国境内的服务器</li>
+    <li>我们采用HTTPS加密传输所有数据</li>
+    <li>数据库采用加密存储，严格控制访问权限</li>
+    <li>我们不会出售您的个人信息给任何第三方</li>
+  </ul>
+
+  <h2>七、信息的保留期限</h2>
+  <ul>
+    <li>账号信息：账号注销后30天内删除</li>
+    <li>行程记录：行程结束后保留180天</li>
+    <li>位置信息：行程结束后保留30天</li>
+  </ul>
+
+  <h2>八、您的权利</h2>
+  <p>您有权：</p>
+  <ul>
+    <li><strong>查阅：</strong>随时查看您的个人信息</li>
+    <li><strong>更正：</strong>更新不准确的个人信息</li>
+    <li><strong>删除：</strong>申请删除您的账号及相关数据</li>
+    <li><strong>撤回授权：</strong>在设备设置中关闭相关权限</li>
+  </ul>
+  <p>如需行使上述权利，请发邮件至 <a href="mailto:helpme2026@163.com">helpme2026@163.com</a>，我们将在15个工作日内响应。</p>
+
+  <h2>九、未成年人保护</h2>
+  <p>本应用不面向14周岁以下未成年人。若发现未成年人在未经监护人同意的情况下注册使用，请联系我们，我们将及时删除相关信息。</p>
+
+  <h2>十、隐私政策的更新</h2>
+  <p>我们可能会不定期更新本隐私政策。更新后，我们将通过应用内通知或其他适当方式告知您。继续使用本应用即视为您同意更新后的政策。</p>
+
+  <h2>十一、联系我们</h2>
+  <ul>
+    <li>公司名称：北京亦辰创联科技有限公司</li>
+    <li>电子邮箱：<a href="mailto:helpme2026@163.com">helpme2026@163.com</a></li>
+    <li>隐私政策页面：<a href="https://helpme2026.github.io/familyclock-privacy-policy/" target="_blank">https://helpme2026.github.io/familyclock-privacy-policy/</a></li>
+  </ul>
+
+  <div class="footer">
+    <p>&copy; 2026 北京亦辰创联科技有限公司 &nbsp;|&nbsp; 亲情闹钟</p>
+  </div>
+
+</div>
+</body>
+</html>
