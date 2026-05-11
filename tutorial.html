@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>亲情闹钟 · 使用教程</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary:    #2563EB;
+    --primary-lt: #EFF6FF;
+    --bg:         #F8FAFC;
+    --surface:    #FFFFFF;
+    --text:       #1E293B;
+    --text-2:     #64748B;
+    --text-3:     #94A3B8;
+    --border:     #E2E8F0;
+    --warn-bg:    #FFF7ED;
+    --warn-text:  #9A3412;
+    --success:    #16A34A;
+    --radius:     12px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.04);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    font-size: 16px; line-height: 1.7;
+    color: var(--text); background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border); padding: 0 20px;
+  }
+  .header-inner {
+    max-width: 760px; margin: 0 auto;
+    height: 56px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-icon {
+    width: 34px; height: 34px; border-radius: 8px; background: var(--primary);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .logo-icon svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .logo-text { font-size: 15px; font-weight: 600; color: var(--text); }
+  .header-tag { font-size: 12px; color: var(--text-2); background: var(--border); padding: 3px 10px; border-radius: 20px; }
+  .hero {
+    background: linear-gradient(160deg, #1D4ED8 0%, #2563EB 40%, #3B82F6 100%);
+    color: #fff; padding: 56px 20px 52px; text-align: center;
+  }
+  .hero h1 { font-size: clamp(22px, 5vw, 30px); font-weight: 700; letter-spacing: -.4px; }
+  .hero p  { margin-top: 10px; font-size: 15px; opacity: .85; max-width: 480px; margin-inline: auto; }
+  .hero-notice {
+    display: inline-flex; align-items: flex-start; gap: 10px;
+    background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
+    border-radius: 10px; padding: 14px 18px; margin-top: 24px;
+    text-align: left; max-width: 560px; font-size: 14px; line-height: 1.6;
+  }
+  .hero-notice svg { flex-shrink: 0; margin-top: 1px; }
+  .hero-notice strong { display: block; font-size: 15px; margin-bottom: 2px; }
+  #progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--primary); width: 0%; transition: width .1s; z-index: 200; }
+  main { max-width: 760px; margin: 0 auto; padding: 0 16px 80px; }
+  .section-label { font-size: 11px; font-weight: 600; letter-spacing: .8px; color: var(--primary); text-transform: uppercase; margin-bottom: 16px; }
+  .flow-section, .steps-section, .alert-section, .faq-section { padding: 40px 0 0; }
+
+  /* Flow */
+  .flow-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px 20px; }
+  .flow-title { font-size: 16px; font-weight: 600; margin-bottom: 20px; }
+  .flow-nodes { display: flex; flex-direction: column; align-items: center; }
+  .flow-node {
+    width: 100%; max-width: 400px; background: var(--primary-lt); border: 1.5px solid #BFDBFE;
+    border-radius: 10px; padding: 11px 18px; display: flex; align-items: center; gap: 10px;
+    font-size: 14px; font-weight: 500; color: var(--primary);
+  }
+  .flow-node.warn  { background: #FFF7ED; border-color: #FED7AA; color: #9A3412; }
+  .flow-node.green { background: #F0FDF4; border-color: #BBF7D0; color: #15803D; }
+  .flow-node.red   { background: #FEF2F2; border-color: #FECACA; color: #DC2626; }
+  .node-icon { width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .flow-node       .node-icon { background: #DBEAFE; }
+  .flow-node.warn  .node-icon { background: #FED7AA; }
+  .flow-node.green .node-icon { background: #DCFCE7; }
+  .flow-node.red   .node-icon { background: #FEE2E2; }
+  .node-icon svg { width: 15px; height: 15px; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .flow-node       .node-icon svg { stroke: var(--primary); }
+  .flow-node.warn  .node-icon svg { stroke: #EA580C; }
+  .flow-node.green .node-icon svg { stroke: #16A34A; }
+  .flow-node.red   .node-icon svg { stroke: #DC2626; }
+  .flow-arrow { width: 2px; height: 20px; background: #BFDBFE; position: relative; }
+  .flow-arrow::after { content: ''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 6px solid #93C5FD; }
+  .flow-branch { width: 100%; max-width: 420px; display: flex; flex-direction: column; align-items: center; }
+  .branch-label { font-size: 11px; color: var(--text-3); background: var(--bg); padding: 2px 10px; border-radius: 20px; border: 1px solid var(--border); margin-bottom: 8px; }
+  .branch-row { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .branch-col { display: flex; flex-direction: column; align-items: center; }
+  .branch-node { width: 100%; border-radius: 8px; padding: 9px 12px; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 7px; border: 1.5px solid; }
+  .branch-node.yes { background: #F0FDF4; border-color: #BBF7D0; color: #15803D; }
+  .branch-node.no  { background: #FEF2F2; border-color: #FECACA; color: #DC2626; }
+  .branch-node.end { background: var(--primary-lt); border-color: #BFDBFE; color: var(--primary); }
+  .branch-node svg { width: 13px; height: 13px; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+  .branch-node.yes svg { stroke: #16A34A; }
+  .branch-node.no  svg { stroke: #DC2626; }
+  .branch-node.end svg { stroke: var(--primary); }
+  .branch-arrow { width: 2px; height: 16px; background: #CBD5E1; }
+
+  /* Steps */
+  .steps-grid { display: flex; flex-direction: column; gap: 16px; }
+  .step-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+  .step-header { display: flex; align-items: center; gap: 14px; padding: 18px 20px; cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; }
+  .step-header:hover { background: #FAFAFA; }
+  .step-num { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; background: var(--primary); color: #fff; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .step-title-wrap { flex: 1; }
+  .step-title { font-size: 15px; font-weight: 600; }
+  .step-sub   { font-size: 13px; color: var(--text-2); margin-top: 1px; }
+  .step-chevron { width: 20px; height: 20px; flex-shrink: 0; color: var(--text-3); transition: transform .2s ease; }
+  .step-card.open .step-chevron { transform: rotate(180deg); }
+  .step-body { display: none; padding: 0 20px 20px 70px; border-top: 1px solid var(--border); }
+  .step-card.open .step-body { display: block; }
+  .step-list { list-style: none; margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+  .step-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.65; }
+  .step-list li::before { content: ''; flex-shrink: 0; margin-top: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
+  .tip-box { display: flex; align-items: flex-start; gap: 10px; background: var(--warn-bg); border: 1px solid #FED7AA; border-radius: 8px; padding: 12px 14px; margin-top: 14px; font-size: 13px; line-height: 1.6; color: var(--warn-text); }
+  .tip-box svg { flex-shrink: 0; margin-top: 1px; width: 16px; height: 16px; stroke: #EA580C; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .info-box { display: flex; align-items: flex-start; gap: 10px; background: var(--primary-lt); border: 1px solid #BFDBFE; border-radius: 8px; padding: 12px 14px; margin-top: 14px; font-size: 13px; line-height: 1.6; color: #1E40AF; }
+  .info-box svg { flex-shrink: 0; margin-top: 1px; width: 16px; height: 16px; stroke: var(--primary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .mini-table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
+  .mini-table th { background: var(--primary); color: #fff; padding: 8px 12px; text-align: left; font-weight: 500; }
+  .mini-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .mini-table tr:last-child td { border-bottom: none; }
+  .mini-table tr:nth-child(even) td { background: #F8FAFC; }
+  .mini-table th:first-child { border-radius: 6px 0 0 0; }
+  .mini-table th:last-child  { border-radius: 0 6px 0 0; }
+  .required { color: #DC2626; font-weight: 600; }
+  .optional { color: var(--text-2); font-size: 12px; }
+
+  /* Alert steps */
+  .alert-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px 20px; }
+  .alert-steps { display: flex; flex-direction: column; margin-top: 16px; }
+  .alert-step { display: flex; gap: 16px; }
+  .alert-step-line { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+  .alert-dot { width: 28px; height: 28px; border-radius: 50%; background: var(--primary); color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .alert-step:last-child .alert-dot { background: var(--success); }
+  .alert-line { width: 2px; flex: 1; background: var(--border); margin: 4px 0; min-height: 20px; }
+  .alert-step:last-child .alert-line { display: none; }
+  .alert-content { padding-bottom: 20px; flex: 1; }
+  .alert-content h4 { font-size: 14px; font-weight: 600; margin-top: 4px; }
+  .alert-content p  { font-size: 13px; color: var(--text-2); margin-top: 3px; line-height: 1.6; }
+
+  /* FAQ */
+  .faq-list { display: flex; flex-direction: column; gap: 10px; }
+  .faq-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .faq-q { padding: 16px 18px; font-size: 14px; font-weight: 500; display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; }
+  .faq-q:hover { background: #FAFAFA; }
+  .faq-icon { width: 18px; height: 18px; flex-shrink: 0; color: var(--text-3); transition: transform .2s; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); color: var(--primary); }
+  .faq-a { display: none; padding: 0 18px 16px; font-size: 14px; color: var(--text-2); line-height: 1.7; border-top: 1px solid var(--border); padding-top: 12px; }
+  .faq-item.open .faq-a { display: block; }
+
+  footer { border-top: 1px solid var(--border); background: var(--surface); padding: 28px 20px; text-align: center; font-size: 13px; color: var(--text-3); }
+  footer a { color: var(--primary); text-decoration: none; }
+
+  @media (max-width: 480px) {
+    .hero { padding: 40px 16px 40px; }
+    .step-body { padding-left: 20px; }
+    .branch-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+      </div>
+      <span class="logo-text">亲情闹钟</span>
+    </a>
+    <span class="header-tag">使用教程</span>
+  </div>
+</header>
+
+<div class="hero">
+  <h1>如何使用亲情闹钟</h1>
+  <p>5分钟完成设置，出门前开启守护，让家人随时了解你的安全状态</p>
+  <div class="hero-notice">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FCD34D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <div>
+      <strong>云端守护，不依赖手机在线</strong>
+      开启守护后，倒计时任务运行在云端服务器。即使你的手机<b>没电、无信号、关机或断网</b>，只要倒计时未在归零前取消，服务器依然会自动通知你的紧急联系人。
+    </div>
+  </div>
+</div>
+
+<main>
+  <section class="flow-section">
+    <div class="section-label">总体流程</div>
+    <div class="flow-card">
+      <div class="flow-title">开启守护完整流程图</div>
+      <div class="flow-nodes">
+        <div class="flow-node">
+          <div class="node-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          在华为应用市场搜索"亲情闹钟"并安装
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node">
+          <div class="node-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          同意隐私政策，点击"开始使用"
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node">
+          <div class="node-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+          填写个人资料（姓名 + 手机号必填）
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node">
+          <div class="node-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          添加紧急联系人（首选1位 + 备用最多2位）
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node">
+          <div class="node-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          在"设置"中选择守护倒计时时长
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node warn">
+          <div class="node-icon"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          点击绿色按钮【开启守护】→ 任务提交到云端服务器
+        </div>
+        <div class="flow-arrow" style="background:#FED7AA;"></div>
+        <div style="height:4px"></div>
+        <div class="flow-branch">
+          <div class="branch-label">倒计时期间 — 随时可取消</div>
+          <div class="branch-row">
+            <div class="branch-col">
+              <div class="branch-node yes">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                安全到达，点击"取消预警"
+              </div>
+              <div class="branch-arrow"></div>
+              <div class="branch-node end">
+                <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                守护结束 ✓
+              </div>
+            </div>
+            <div class="branch-col">
+              <div class="branch-node no">
+                <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                未取消，倒计时归零
+              </div>
+              <div class="branch-arrow"></div>
+              <div class="branch-node no">
+                <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.68 9.71"/></svg>
+                云端自动通知紧急联系人
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="steps-section">
+    <div class="section-label">详细步骤</div>
+    <div class="steps-grid">
+
+      <div class="step-card open">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num">1</div>
+          <div class="step-title-wrap">
+            <div class="step-title">在华为应用市场下载安装</div>
+            <div class="step-sub">搜索"亲情闹钟"即可</div>
+          </div>
+          <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="step-body">
+          <ul class="step-list">
+            <li>打开手机上的<strong>华为应用市场</strong></li>
+            <li>点击顶部搜索框，输入 <strong>"亲情闹钟"</strong></li>
+            <li>找到"亲情闹钟"，点击<strong>安装</strong></li>
+            <li>安装完成后，点击<strong>打开</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num">2</div>
+          <div class="step-title-wrap">
+            <div class="step-title">同意隐私政策</div>
+            <div class="step-sub">首次打开必须同意才能使用</div>
+          </div>
+          <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="step-body">
+          <ul class="step-list">
+            <li>首次打开 App，屏幕自动弹出<strong>隐私政策授权弹窗</strong></li>
+            <li>阅读完成后，点击 <strong>"同意"</strong></li>
+            <li>进入欢迎页，点击 <strong>"开始使用 →"</strong> 进入主页</li>
+          </ul>
+          <div class="tip-box">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            若点击"不同意"，App 将无法继续使用。点击"返回查看"可重新阅读并同意。
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num">3</div>
+          <div class="step-title-wrap">
+            <div class="step-title">填写个人资料</div>
+            <div class="step-sub">姓名和手机号必填，开启守护前需完成</div>
+          </div>
+          <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="step-body">
+          <ul class="step-list">
+            <li>点击主页<strong>左上角头像圆圈</strong>，进入"个人资料"页</li>
+            <li>点击 <strong>"编辑资料"</strong></li>
+            <li>填写信息后，点击 <strong>"保存资料"</strong></li>
+          </ul>
+          <table class="mini-table">
+            <tr><th>字段</th><th>说明</th></tr>
+            <tr><td><span class="required">姓名 *</span></td><td>必填，填写真实姓名</td></tr>
+            <tr><td><span class="required">手机号 *</span></td><td>必填，本人手机号</td></tr>
+            <tr><td><span class="optional">性别</span></td><td>选填，男 / 女</td></tr>
+            <tr><td><span class="optional">生日</span></td><td>选填，点击日期选择器</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num">4</div>
+          <div class="step-title-wrap">
+            <div class="step-title">添加紧急联系人</div>
+            <div class="step-sub">最多3位（1位首选 + 2位备用）</div>
+          </div>
+          <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="step-body">
+          <ul class="step-list">
+            <li>点击底部导航栏 <strong>"联系人"</strong> Tab</li>
+            <li>点击右上角 <strong>"添加首选"</strong> 按钮</li>
+            <li>在弹出表单中填写信息，点击 <strong>"立即保存"</strong></li>
+            <li>如需添加备用联系人，点击 <strong>"立即添加"</strong> 继续</li>
+          </ul>
+          <table class="mini-table">
+            <tr><th>字段</th><th>说明</th></tr>
+            <tr><td><span class="required">姓名 *</span></td><td>必填</td></tr>
+            <tr><td><span class="required">手机号 *</span></td><td>必填，联系人手机号</td></tr>
+            <tr><td><span class="optional">与您的关系</span></td><td>家人 / 朋友 / 同学 / 好友</td></tr>
+            <tr><td>短信通知</td><td>默认开启，无法关闭</td></tr>
+            <tr><td><span class="optional">电话通知</span></td><td>选填，开启后预警时自动拨打</td></tr>
+          </table>
+          <div class="info-box">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            首选联系人最先被通知。若短信发送失败，系统自动升级通知备用联系人1，再失败则通知备用联系人2。
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num">5</div>
+          <div class="step-title-wrap">
+            <div class="step-title">设置守护倒计时时长</div>
+            <div class="step-sub">最短10分钟，保存后同步到云端</div>
+          </div>
+          <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="step-body">
+          <ul class="step-list">
+            <li>点击底部导航栏 <strong>"设置"</strong> Tab</li>
+            <li>在 <strong>"通知时间设置"</strong> 区域，用滚轮选择时长</li>
+            <li>也可点击快捷预设：<strong>10分钟 / 1小时 / 2小时 / 6小时 / 12小时</strong></li>
+            <li>确认当前设置后，点击 <strong>"保存设置"</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num">6</div>
+          <div class="step-title-wrap">
+            <div class="step-title">开启守护</div>
+            <div class="step-sub">出门前点击绿色按钮即可启动</div>
+          </div>
+          <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="step-body">
+          <ul class="step-list">
+            <li>回到主页，圆形按钮显示<strong>绿色</strong>，中央显示 <strong>"目前我安全"</strong></li>
+            <li>点击按钮，倒计时任务<strong>提交至云端服务器</strong></li>
+            <li>按钮变为<strong>红色</strong>，显示 <strong>"预警倒计时"</strong></li>
+            <li>此时即使手机关机或断网，服务器也会在到期后自动通知</li>
+          </ul>
+          <div class="info-box">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            开启守护时需短暂联网，将任务提交到服务器。提交成功后断网不影响倒计时执行。
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num">7</div>
+          <div class="step-title-wrap">
+            <div class="step-title">安全到达后取消守护</div>
+            <div class="step-sub">到达目的地记得点击取消</div>
+          </div>
+          <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="step-body">
+          <ul class="step-list">
+            <li>打开 App，主页按钮仍显示红色</li>
+            <li>点击 <strong>"点击取消预警"</strong> 按钮</li>
+            <li>按钮恢复绿色，显示 <strong>"目前我安全"</strong> ✓</li>
+          </ul>
+          <div class="tip-box">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            到达目的地后请务必取消守护，否则倒计时归零时系统会自动通知你的紧急联系人。
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="alert-section">
+    <div class="section-label">倒计时归零后发生什么</div>
+    <div class="alert-card">
+      <div class="flow-title">云端自动触发预警流程</div>
+      <div class="alert-steps">
+        <div class="alert-step">
+          <div class="alert-step-line"><div class="alert-dot">1</div><div class="alert-line"></div></div>
+          <div class="alert-content">
+            <h4>通知首选联系人</h4>
+            <p>发送短信（开启电话通知则同时拨打电话），附带你最后上报的位置信息。</p>
+          </div>
+        </div>
+        <div class="alert-step">
+          <div class="alert-step-line"><div class="alert-dot">2</div><div class="alert-line"></div></div>
+          <div class="alert-content">
+            <h4>自动升级通知（若首选失败）</h4>
+            <p>首选联系人短信发送失败时，自动依次通知备用联系人1 → 备用联系人2。</p>
+          </div>
+        </div>
+        <div class="alert-step">
+          <div class="alert-step-line"><div class="alert-dot">3</div><div class="alert-line"></div></div>
+          <div class="alert-content">
+            <h4>推送成功通知给你</h4>
+            <p>联系人收到通知后，你的手机会收到推送：<strong>"首选联系人已收到通知"</strong>。</p>
+          </div>
+        </div>
+        <div class="alert-step">
+          <div class="alert-step-line"><div class="alert-dot">4</div><div class="alert-line"></div></div>
+          <div class="alert-content">
+            <h4>主页显示预警状态</h4>
+            <p>红色按钮显示 <strong>"已触发预警"</strong>，下方显示"已自动通知紧急联系人"。</p>
+          </div>
+        </div>
+        <div class="alert-step">
+          <div class="alert-step-line"><div class="alert-dot">5</div></div>
+          <div class="alert-content">
+            <h4>确认安全后重置</h4>
+            <p>确认自己平安后，点击 <strong>"点击重置"</strong> 按钮，恢复正常守护状态。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-section">
+    <div class="section-label">常见问题</div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          开启守护时提示"网络错误"怎么办？
+          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a">开启守护时需要短暂联网将任务提交到云端服务器。请检查网络连接（切换 WiFi 或移动数据）后重试。提交成功后断网不影响倒计时执行。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          开启守护时弹出"完善个人信息"提示？
+          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a">需要先完成"第3步（填写个人资料）"和"第4步（添加紧急联系人）"，两步都完成后才能开启守护。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          找不到"开始使用"按钮？
+          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a">请先在隐私政策弹窗中点击"同意"，"开始使用"按钮才会激活。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          如何修改或删除紧急联系人？
+          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a">进入底部"联系人"Tab，点击联系人右侧的编辑图标可修改，点击删除图标可删除。删除备用联系人1后，备用联系人2会自动升级为备用联系人1。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          手机没电或没信号，联系人还能收到通知吗？
+          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a">可以。倒计时任务在开启守护时已提交至云端服务器。服务器在倒计时归零时自动发送短信或电话，完全不依赖你的手机是否在线。这也是亲情闹钟与普通手机闹钟的核心区别。</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>亲情闹钟 · 云端筑迹，用心守护</p>
+  <p style="margin-top:6px;">联系我们：<a href="mailto:helpme2026@163.com">helpme2026@163.com</a></p>
+  <p style="margin-top:6px;"><a href="./index.html">隐私政策</a> · <a href="./terms.html">用户协议</a></p>
+</footer>
+
+<script>
+  function toggleStep(header) { header.closest('.step-card').classList.toggle('open'); }
+  function toggleFaq(q) { q.closest('.faq-item').classList.toggle('open'); }
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const pct = doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  });
+</script>
+</body>
+</html>
